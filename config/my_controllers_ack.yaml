@@ -16,7 +16,7 @@ ack_cont:
     reference_timeout: 2.0
     front_steering: true
     open_loop: true
-    velocity_rolling_window_size: 20
+    velocity_rolling_window_size: 10
     position_feedback: false
     base_fame_id: base_link
     front_steering: true
@@ -24,8 +24,8 @@ ack_cont:
     front_wheels_names: [right_steering_joint, left_steering_joint]
 
     wheelbase: 0.508
-    front_wheel_track: 0.75
-    rear_wheel_track: 0.75
+    front_wheel_track: 0.4
+    rear_wheel_track: 0.4
     front_wheels_radius: 0.08
     rear_wheels_radius: 0.08
 
