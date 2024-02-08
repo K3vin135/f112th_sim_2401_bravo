@@ -4,7 +4,11 @@
     <!-- Example link -->
     <xacro:include filename="robot_core.xacro"/>
         <!-- Example link -->
-    <link name="base_link"></link>
+
+
+    <link name="base_linkkk"></link>
+
+
 
 
 </robot>
