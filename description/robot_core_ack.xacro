@@ -1,0 +1,293 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Body dimensiones -->
+    <xacro:include filename="inertial_macros.xacro"/>
+    <xacro:property name="body_link_x_dim" value="0.7"/>
+    <xacro:property name="body_link_y_dim" value="0.3"/>
+    <xacro:property name="body_link_z_dim" value="0.15"/>
+    <!-- wheel dimensiones -->
+    <xacro:include filename="inertial_macros.xacro"/>
+    <xacro:property name="wheel_link_radius" value="0.08"/>
+    <xacro:property name="wheel_link_length" value="0.05"/>
+    <xacro:property name="wheel_link_z_location" value="-0.035"/>
+    <!-- Example link -->
+        <link name="base_link">
+    
+    </link>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>   
+    </joint>
+    <!-- chassis link -->
+    <link name="chassis">
+        <visual>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="${body_link_x_dim} ${body_link_y_dim} ${body_link_z_dim}"/>
+            </geometry>
+            <material name="white"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0"/>
+            <geometry>
+                <box size="${body_link_x_dim} ${body_link_y_dim} ${body_link_z_dim}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.5" x="${body_link_x_dim}" y="${body_link_y_dim}" z="${body_link_z_dim}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <!-- steering joint >
+    <joint name="steering_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="steering"/>
+        <origin xyz="${body_link_x_dim/2-1.2*wheel_link_radius} 0 ${wheel_link_z_location}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="100" lower="-0.41" upper="0.41" velocity="0.5"/> 
+        
+    </joint>
+ 
+    <link name="steering">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_link_radius*0.4}" length="${body_link_y_dim}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <sphere radius="${body_link_y_dim}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="${body_link_y_dim}" radius="${wheel_link_radius*0.4}">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link-->
+
+    <joint name="left_steering_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="left_steering_link"/>
+        <origin xyz="${body_link_x_dim/2-1.2*wheel_link_radius} ${body_link_y_dim/2} ${wheel_link_z_location}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="100" lower="-0.41" upper="0.41" velocity="0.5"/> 
+        
+    </joint>
+
+    <link name="left_steering_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_link_radius*0.4}" length="0.01"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <sphere radius="${wheel_link_radius*0.4}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.01" radius="${wheel_link_radius*0.4}">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <joint name="right_steering_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="right_steering_link"/>
+        <origin xyz="${body_link_x_dim/2-1.2*wheel_link_radius} ${-body_link_y_dim/2} ${wheel_link_z_location}" rpy="0 0 0"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="100" lower="-0.41" upper="0.41" velocity="0.5"/> 
+    
+    </joint>
+
+
+    <link name="right_steering_link">
+    <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_link_radius*0.4}" length="0.01"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <sphere radius="${wheel_link_radius*0.4}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="0.01" radius="${wheel_link_radius*0.4}">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- rear_right_wheel joint -->
+    <joint name="rear_right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rear_right_wheel"/>
+        <origin xyz="${-body_link_x_dim/2+1.2*wheel_link_radius} ${-body_link_y_dim/2-wheel_link_length/2} ${wheel_link_z_location}" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>    
+ 
+    </joint>
+
+    <!-- rear_right_wheel link -->
+    <link name="rear_right_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_link_radius}" length="${wheel_link_length}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <sphere radius="${wheel_link_radius}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="${wheel_link_length}" radius="${wheel_link_radius}">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- rear_left_wheel -->
+    <joint name="rear_left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="rear_left_wheel"/>
+        <origin xyz="${-body_link_x_dim/2+1.2*wheel_link_radius} ${body_link_y_dim/2+wheel_link_length/2} ${wheel_link_z_location}" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>    
+ 
+    </joint>
+
+    <!-- rear_left_wheel link -->
+    <link name="rear_left_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_link_radius}" length="${wheel_link_length}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <sphere radius="${wheel_link_radius}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="${wheel_link_length}" radius="${wheel_link_radius}">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- front_right_wheeljoint -->
+    <joint name="front_right_wheel_joint" type="continuous">
+        <parent link="right_steering_link"/>
+        <child link="front_right_wheel"/>
+        <origin xyz="0 ${-wheel_link_length/2} 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>    
+  
+    </joint>
+    <!-- rear left wheel link -->
+    <link name="front_right_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_link_radius}" length="${wheel_link_length}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <sphere radius="${wheel_link_radius}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="${wheel_link_length}" radius="${wheel_link_radius}">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <!-- front_left_wheel joint -->
+    <joint name="front_left_wheel_joint" type="continuous">
+        <parent link="left_steering_link"/>
+        <child link="front_left_wheel"/>
+        <origin xyz="0 ${wheel_link_length/2} 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>    
+ 
+    </joint>
+
+    <!-- front_left_wheel_link -->
+    <link name="front_left_wheel">
+        <visual>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <cylinder radius="${wheel_link_radius}" length="${wheel_link_length}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+            <geometry>
+                <sphere radius="${wheel_link_radius}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="0.1" length="${wheel_link_length}" radius="${wheel_link_radius}">
+            <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+   
+    <gazebo reference="chassis">
+        <material>Gazebo/White</material>
+        <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
+    </gazebo>
+
+    <gazebo reference="rear_left_wheel">
+        <material>Gazebo/Blue</material>
+        <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
+    </gazebo>
+
+    <gazebo reference="rear_right_wheel">
+        <material>Gazebo/Blue</material>
+         <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
+    </gazebo>
+
+     <gazebo reference="front_left_wheel">
+        <material>Gazebo/Blue</material>
+         <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
+    </gazebo>
+
+    <gazebo reference="front_right_wheel">
+        <material>Gazebo/Blue</material>
+         <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
+    </gazebo>
+
+    <gazebo reference="right_steering_link">
+        <material>Gazebo/Blue</material>
+         <mu1 value = "0.2" />
+        <mu2 value = "0.2" />
+    </gazebo>
+
+    <gazebo reference="left_steering_link">
+        <material>Gazebo/Blue</material>
+         <mu1 value = "0.2" />
+        <mu2 value = "0.2" />
+    </gazebo>
+
+    <gazebo reference="steering">
+        <material>Gazebo/White</material>
+         <mu1 value = "0.2" />
+        <mu2 value = "0.2" />
+    </gazebo>
+
+</robot>

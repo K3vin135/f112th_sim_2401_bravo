@@ -7,7 +7,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
+import launch_ros.descriptions
 from launch_ros.actions import Node
 
 def generate_launch_description():
@@ -35,18 +35,19 @@ def generate_launch_description():
                         arguments=['-topic', 'robot_description',
                                 '-entity', 'my_bot'],
                         output='screen')
-    # Launch the Diff_Controller
-    diff_drive_spawner = Node(
-        package='controller_manager', 
-        executable='spawner', 
+    
+    diff_drive_spawner = Node( package='controller_manager', executable='spawner', 
         arguments=['diff_cont'])
+    
+    ack_drive_spawner = Node( package='controller_manager', executable='spawner', 
+        arguments=['ack_cont'])
 		
 		# Launch the Joint_Broadcaster
     joint_broad_spawner = Node(
         package='controller_manager', 
         executable='spawner', 
         arguments=['joint_broad'])
-
+    
     joystick = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','joystick.launch.py'
@@ -59,15 +60,16 @@ def generate_launch_description():
     twist_mux_node = Node(package='twist_mux', 
                     executable='twist_mux',
                     parameters=[twist_mux_params,{'use_sim_time': True}],
-                    remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
+                    remappings=[('/cmd_vel_out','/ack_cont/reference_unstamped')]
     )
 
-# Launch them all!
+    # Launch them all!
     return LaunchDescription([
         rsp,
         joystick,
         twist_mux_node,
         gazebo,
         spawn_entity,
-        diff_drive_spawner,
-        joint_broad_spawner])
+		ack_drive_spawner,
+        joint_broad_spawner
+    ])
