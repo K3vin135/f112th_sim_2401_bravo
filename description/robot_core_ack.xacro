@@ -244,32 +244,32 @@
    
     <gazebo reference="chassis">
         <material>Gazebo/White</material>
-        <mu1 value = "0.1" />
-        <mu2 value = "0.1" />
+        <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
     </gazebo>
 
     <gazebo reference="rear_left_wheel">
         <material>Gazebo/Blue</material>
-        <mu1 value = "0.1" />
-        <mu2 value = "0.1" />
+        <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
     </gazebo>
 
     <gazebo reference="rear_right_wheel">
         <material>Gazebo/Blue</material>
-         <mu1 value = "0.1" />
-        <mu2 value = "0.1" />
+         <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
     </gazebo>
 
      <gazebo reference="front_left_wheel">
         <material>Gazebo/Blue</material>
-         <mu1 value = "0.1" />
-        <mu2 value = "0.1" />
+         <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
     </gazebo>
 
     <gazebo reference="front_right_wheel">
         <material>Gazebo/Blue</material>
-         <mu1 value = "0.02" />
-        <mu2 value = "0.02" />
+         <mu1 value = "0.3" />
+        <mu2 value = "0.3" />
     </gazebo>
 
     <gazebo reference="right_steering_link">
